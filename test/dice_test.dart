@@ -20,7 +20,7 @@ void main() {
 
     test('identifyBadValuesLesserThanOne', () {
       final mockRandom = MockRandom();
-      when(mockRandom.nextInt(6)).thenReturn(-1);
+      when(mockRandom.nextInt(6)+1).thenReturn(-1);
 
       final theDice = Dice(mockRandom);
 
@@ -29,7 +29,7 @@ void main() {
 
     test('identifyDiceWorkingCorrectly', () {
       final mockRandom = MockRandom();
-      when(mockRandom.nextInt(6)).thenReturn(3);
+      when(mockRandom.nextInt(6)+1).thenReturn(3);
 
       final theDice = Dice(mockRandom);
 

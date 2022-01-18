@@ -8,61 +8,57 @@ import 'dice_test.mocks.dart';
 
 void main() {
   group('game', () {
-    test('NoWinnerSituation', () {
-      const betNumber = 200;
-      final mockRandom = MockRandom();
-      when(mockRandom.nextInt(6)).thenReturn(2);
 
+    test('checkBetNumberIsIncorrect',(){
+      const betNumber = -20;
+      final mockRandom = MockRandom();
+      when(mockRandom.nextInt(6) + 1).thenReturn(5);
       final theDice = Dice(mockRandom);
-      final player1 = createPlayer('anderson', [1,2,3]);
-      final sut = createGame(player1, theDice, betNumber);
+
+      final player = createPlayer('amir');
+      player.setSelectedFaces([1, 2, 3, 4]);
+
+      expect(() => createGame(player, theDice, betNumber), throwsException);
+
+
+    });
+    test('loserSituation', () {
+      const betNumber = 100;
+      final mockRandom = MockRandom();
+      when(mockRandom.nextInt(6) + 1).thenReturn(5);
+      final theDice = Dice(mockRandom);
+
+      final player = createPlayer('amir');
+      player.setSelectedFaces([1, 2, 3, 4]);
+
+      final sut = createGame(player, theDice, betNumber);
 
       sut.play();
 
-      expect(sut.getPlayer1awardedMoney, 100);
-      expect(sut.getPlayer2awardedMoney, 100);
-
+      expect(sut.getAwardedMoney, 0);
     });
 
-    test('WinnerSituation', () {
-      const betNumber = 200;
+    test('winnerSituationWhenClientSelectOneFace', () {
+      const betNumber = 100;
       final mockRandom = MockRandom();
-      when(mockRandom.nextInt(6)).thenReturn(2);
-
+      when(mockRandom.nextInt(6) + 1).thenReturn(1);
       final theDice = Dice(mockRandom);
-      final player1 = createPlayer('anderson', [2]);
-      final sut = createGame(player1, theDice, betNumber);
+      final player = createPlayer('amir');
+      player.setSelectedFaces([1]);
+
+      final sut = createGame(player, theDice, betNumber);
 
       sut.play();
 
-      expect(sut.getPlayer1awardedMoney, 167);
-      expect(sut.getPlayer2awardedMoney, 33);
-
+      expect(sut.getAwardedMoney, 500);
     });
-
-    test('LoserSituation', () {
-      const betNumber = 200;
-      final mockRandom = MockRandom();
-      when(mockRandom.nextInt(6)).thenReturn(2);
-
-      final theDice = Dice(mockRandom);
-      final player1 = createPlayer('anderson', [1]);
-      final sut = createGame(player1, theDice, betNumber);
-
-      sut.play();
-
-      expect(sut.getPlayer1awardedMoney, 33);
-      expect(sut.getPlayer2awardedMoney, 167);
-
-    });
-
   });
 }
 
-Player createPlayer(String name, List<int> selectedFaces){
-  return Player(name,selectedFaces);
+Player createPlayer(String name) {
+  return Player(name);
 }
 
-Game createGame(Player player, Dice theDice, int betNumber){
+Game createGame(Player player, Dice theDice, int betNumber) {
   return Game(player, theDice, betNumber);
 }

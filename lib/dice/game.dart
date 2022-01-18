@@ -9,30 +9,28 @@ class Game {
   final Dice theDice;
   int diceValue = -1;
 
-  double player1awardedMoney = -1;
-  double player2awardedMoney = -1;
+  double awardMoney = -1;
 
-  Game(this.player, this.theDice, this.betNumber);
+  Game(this.player, this.theDice, this.betNumber){
+    if(betNumber <= 0){
+      throw Exception('Invalid data');
+    }
+  }
 
   void play() {
     diceValue = theDice.roll();
+    final playerSelectedFaces = player.selectedDiceFaces;
+    if (playerSelectedFaces.contains(diceValue)) {
+      int playerSelectedFacesLength = player.selectedDiceFaces.length;
+      final remain = (FACES - playerSelectedFacesLength) * betNumber;
+      final result = remain / playerSelectedFacesLength;
 
-    int playerSelectedFaces = player.selectedDiceFaces.length;
-    final percent = 100 - (playerSelectedFaces * 100 / FACES);
-
-
-    //check players winning state
-    if (player.selectedDiceFaces.contains(diceValue)) {
-      player1awardedMoney = (betNumber / 100) * percent;
-      player2awardedMoney = betNumber - player1awardedMoney;
+      awardMoney=  result;
     } else {
-      player2awardedMoney = (betNumber / 100) * percent;
-      player1awardedMoney = betNumber - player2awardedMoney;
+      awardMoney =  0;
     }
-
   }
 
-  int get getPlayer1awardedMoney => player1awardedMoney.round();
+  int get getAwardedMoney => awardMoney.round();
 
-  int get getPlayer2awardedMoney => player2awardedMoney.round();
 }
