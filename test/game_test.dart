@@ -8,8 +8,7 @@ import 'dice_test.mocks.dart';
 
 void main() {
   group('game', () {
-
-    test('checkBetNumberIsIncorrect',(){
+    test('checkBetNumberIsIncorrect', () {
       const betNumber = -20;
       final mockRandom = MockRandom();
       when(mockRandom.nextInt(6) + 1).thenReturn(5);
@@ -19,8 +18,22 @@ void main() {
       player.setSelectedFaces([1, 2, 3, 4]);
 
       expect(() => createGame(player, theDice, betNumber), throwsException);
+    });
 
+    test('checkPlayerAwardWhenChooseAllFaces', () {
+      const betNumber = 100;
+      final mockRandom = MockRandom();
+      when(mockRandom.nextInt(6) + 1).thenReturn(5);
+      final theDice = Dice(mockRandom);
 
+      final player = createPlayer('amir');
+      player.setSelectedFaces([1, 2, 3, 4, 5,6]);
+
+      final sut = createGame(player, theDice, betNumber);
+
+      sut.play();
+
+      expect(sut.getAwardedMoney, 0);
     });
     test('loserSituation', () {
       const betNumber = 100;

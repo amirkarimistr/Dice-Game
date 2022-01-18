@@ -7,6 +7,10 @@ class Player{
 
   void setSelectedFaces(List<int> selectedDiceFaces){
 
+    if(selectedDiceFaces.isEmpty || selectedDiceFaces.length > 6){
+      throw Exception('Invalid data ');
+    }
+
     for(var item in selectedDiceFaces){
       if(!validFaces.contains(item)){
         throw Exception('Invalid data');

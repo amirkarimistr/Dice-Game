@@ -11,26 +11,26 @@ class Game {
 
   double awardMoney = -1;
 
-  Game(this.player, this.theDice, this.betNumber){
-    if(betNumber <= 0){
+  Game(this.player, this.theDice, this.betNumber) {
+    if (betNumber <= 0) {
       throw Exception('Invalid data');
     }
   }
 
   void play() {
     diceValue = theDice.roll();
+    int playerSelectedFacesLength = player.selectedDiceFaces.length;
     final playerSelectedFaces = player.selectedDiceFaces;
-    if (playerSelectedFaces.contains(diceValue)) {
-      int playerSelectedFacesLength = player.selectedDiceFaces.length;
+
+    if (playerSelectedFaces.contains(diceValue) && playerSelectedFacesLength != FACES) {
       final remain = (FACES - playerSelectedFacesLength) * betNumber;
       final result = remain / playerSelectedFacesLength;
 
-      awardMoney=  result;
+      awardMoney = result;
     } else {
-      awardMoney =  0;
+      awardMoney = 0;
     }
   }
 
   int get getAwardedMoney => awardMoney.round();
-
 }

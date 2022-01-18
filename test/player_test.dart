@@ -8,6 +8,20 @@ void main() {
 
       expect(() => sut.setSelectedFaces([8, 7]), throwsException);
     });
+
+    test('identifySelectFacesListIsEmpty',(){
+      final sut = createPlayer();
+
+      expect(() => sut.setSelectedFaces([]), throwsException);
+
+    });
+
+    test('identifySelectedFacesListSizeIsGreaterThanSix',(){
+
+      final sut = createPlayer();
+
+      expect(() => sut.setSelectedFaces([1,2,3,4,5,6,7]), throwsException);
+    });
   });
 }
 
